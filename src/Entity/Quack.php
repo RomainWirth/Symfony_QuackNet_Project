@@ -14,10 +14,10 @@ class Quack
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT, length: 280)]
-    private ?string $quack = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
 
     public function getId(): ?int
@@ -25,14 +25,14 @@ class Quack
         return $this->id;
     }
 
-    public function getQuack(): ?string
+    public function getContent(): ?string
     {
-        return $this->quack;
+        return $this->content;
     }
 
-    public function setQuack(string $quack): static
+    public function setContent(string $content): static
     {
-        $this->quack = $quack;
+        $this->content = $content;
 
         return $this;
     }
