@@ -16,6 +16,9 @@
 <div class="example-wrapper">
     <h1>Feed</h1>
     <div>
+        <a href="{{ path('quackquack_add') }}">New Quack</a>
+    </div>
+    <div>
         {% for quack in quacks %}
             <a href="">
                 <article class="quack">
@@ -28,9 +31,6 @@
         {% else %}
             <p>Aucun quack</p>
         {% endfor %}
-    </div>
-    <div>
-        <button>New Quack</button>
     </div>
 </div>
 {% endblock %}

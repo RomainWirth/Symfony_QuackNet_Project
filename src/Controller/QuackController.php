@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Quack;
+use App\Form\QuackType;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,18 +28,11 @@ class QuackController extends AbstractController {
     }
 
     #[Route('/newQuack', name: 'quack_add', methods:['GET', 'POST'])]
-    public function addQuack(EntityManagerInterface $entityManager, Request $request) {
+    public function addQuack() {
         $quack = new Quack();
-        $quack->setTitle('Title');
-        $quack->setContent('Contenu du quack');
-        $quack->setCreatedAt();
-
-        $entityManager->persist($quack);
-
-        $entityManager->flush();
-
-        return $this->render('quack/createquack.html.twig', ['quack' => $quack]);
-
+        $form = $this->createForm(QuackType::class, $quack);
+        $form->add('save', SubmitType::class, ['label' => 'Poster']);
+        return $this->render('quack/createquack.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/{id<\d+>}/edit', name: 'quack_edit', methods:['GET', 'POST'])]
