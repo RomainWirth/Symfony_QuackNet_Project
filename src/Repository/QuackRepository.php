@@ -14,10 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Quack[]    findAll()
  * @method Quack[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QuackRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class QuackRepository extends ServiceEntityRepository {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Quack::class);
     }
 
