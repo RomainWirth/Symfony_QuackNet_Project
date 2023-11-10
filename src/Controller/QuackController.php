@@ -5,54 +5,40 @@ namespace App\Controller;
 use App\Entity\Quack;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/quack', name: 'quack')]
-class QuackController extends AbstractController
-{
-    #[Route('/', name: '_home_page', methods:['get'])]
-    public function getAllQuacks(): Response
-    {
-        return $this->render('quack/index.html.twig', [
-            'controller_name' => 'Home',
-        ]);
+class QuackController extends AbstractController {
+    #[Route('/', name: 'quack_list', methods:['GET'])]
+    public function listQuacks(): Response {
+        return $this->render('quack/index.html.twig');
     }
 
-    #[Route('/newQuack', name: '_create_quack', methods:['post'])]
-    public function createQuack(): Response
-    {
-        return $this->render('quack/quacks.html.twig', [
-            'controller_name' => 'New Quack'
-        ]);
+    #[Route('/{id}', name: 'quack_show', requirements: ['id' => '\d+'], methods:['GET'])]
+    public function showQuack(int $id): Response {
+        return $this->render('quack/yourquack.html.twig', ['quack' => $quack]);
     }
 
-    #[Route('/{id}', name: '_one_quack', methods:['get'])]
-    public function getOneQuack(EntityManagerInterface $entityManager, int $id): Response
-    {
-        $quack = $entityManager->getRepository(Quack::class)->find($id);
-        if(!$quack) {
-            throw $this->createNotFoundException(
-                'Quack not found for id '.$id
-            );
+    #[Route('/newQuack', name: 'quack_add', methods:['GET', 'POST'])]
+    public function addQuack(Request $request) {
+        if ($request->isMethod('POST')) {
+            $content = $request->request->get('content');
+        } else {
+
         }
-        return new Response('Here is your quack: '.$quack->getContent());
-        // return $this->render('quack/yourquack.html.twig', ['quack' => $quack]);
     }
 
-    #[Route('/{id}', name: '_update_quack', methods:['put'])]
-    public function updateQuack(): Response
-    {
+    #[Route('/{id<\d+>}/edit', name: 'quack_edit', methods:['GET', 'POST'])]
+    public function editQuack(): Response {
         return $this->render('quack/', [
             'message' => 'your quack has been updated'
         ]);
     }
 
-    #[Route('/{id}', name: '_delete_quack', methods:['delete'])]
-    public function deleteQuack(): Response
-    {
-        return $this->render('quack/', [
-            'message' => 'your quack has been deleted'
-        ]);
+    #[Route('/{id<\d+>}/delete', name: 'quack_delete', methods:['POST'])]
+    public function deleteQuack(int $id): Response {
+        return $this->redirectToRoute('quack_list');
     }
 }

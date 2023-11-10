@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello QuackController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,14 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{{ controller_name }}</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/user/Cours/PHP_Symphony/QuackNet/src/Controller/QuackController.php'|file_link(0) }}">src/Controller/QuackController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/user/Cours/PHP_Symphony/QuackNet/templates/quack/index.html.twig'|file_link(0) }}">templates/quack/index.html.twig</a></code></li>
-    </ul>
+    <h1>Feed</h1>
+    {% for quack in quacks %}
+    <article class="quack">
+        <p class="quack-content">{{ quack.content }}</p>
+        <span class="quack-date">Publié le {{ quack.created_at }}</span>
+    </article>
+    {% else %}
+    <p>Aucun quack</p>
+    {% endfor %}
 </div>
 {% endblock %}
