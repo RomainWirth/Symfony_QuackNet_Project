@@ -18,7 +18,9 @@ class QuackController extends AbstractController {
     #[Route('/', name: 'quack_list', methods:['GET'])]
     public function listQuacks(QuackRepository $quackRepository, Request $request): Response {
         $quacks = $quackRepository->findAll();
-        return $this->render('quack/index.html.twig', ['quacks' => $quacks]);
+        return $this->render('quack/index.html.twig', [
+            'quacks' => $quacks
+        ]);
     }
 
     #[Route('/{id}', name: 'quack_show', requirements: ['id' => '\d+'], methods:['GET'])]
@@ -28,18 +30,47 @@ class QuackController extends AbstractController {
     }
 
     #[Route('/newQuack', name: 'quack_add', methods:['GET', 'POST'])]
-    public function addQuack() {
+    public function addQuack(Request $request, EntityManagerInterface $entityManager): Response {
+        // création d'un nouveau Quack
         $quack = new Quack();
+
+        // Création du formulaire
         $form = $this->createForm(QuackType::class, $quack);
-        $form->add('save', SubmitType::class, ['label' => 'Poster']);
+        /* handler */
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quackData = $form->getData();
+            $entityManager->persist($quackData);
+            $entityManager->flush();
+            return $this->redirectToRoute('quackSuccess');
+        }
+        /* render */
         return $this->render('quack/createquack.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/{id<\d+>}/edit', name: 'quack_edit', methods:['GET', 'POST'])]
-    public function editQuack(): Response {
-        return $this->render('quack/', [
-            'message' => 'your quack has been updated'
+    #[Route('/quackSuccess', name: 'quackSuccess', methods:'GET')]
+    public function postQuackSuccess(): Response {
+        return $this->render('quack/quacksuccess.html.twig', [
+            'message' => 'quack created'
         ]);
+    }
+
+    #[Route('/{id<\d+>}/edit', name: 'quack_edit', methods:['GET', 'POST'])]
+    public function editQuack(Quack $quack, Request $request, EntityManagerInterface $entityManager): Response {
+
+        $this->denyAccessUnlessGranted('quack_edit', $quack);
+
+        $form = $this->createForm(QuackType::class, $quack);
+        /* handler */
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quackData = $form->getData();
+            $entityManager->persist($quackData);
+            $entityManager->flush();
+            return $this->redirectToRoute('quackSuccess');
+        }
+
+        return $this->render('quack/editquack.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/{id<\d+>}/delete', name: 'quack_delete', methods:['POST'])]

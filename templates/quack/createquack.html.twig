@@ -6,5 +6,12 @@
 
 {% block body %}
     <h1>New Quack</h1>
-    {{ form(form) }}
+    <div>
+        {{ form_start(form) }}
+        <div>
+            {{ form_widget(form) }}
+        </div>
+{#        <button type="submit">Save New Quack</button>#}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

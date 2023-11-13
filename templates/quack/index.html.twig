@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
+<main class="example-wrapper">
     <h1>Feed</h1>
     <div>
         <a href="{{ path('quackquack_add') }}">New Quack</a>
@@ -22,15 +22,14 @@
         {% for quack in quacks %}
             <a href="">
                 <article class="quack">
-                    <h2 class="quack-title">{{ quack.title }}</h2>
                     <p class="quack-content">{{ quack.content }}</p>
-                    <p class="quack-author">{{ quack.user_id }}</p>
-                    <span class="quack-date">Publié le {{ quack.created_at }}</span>
+                    {#<p class="quack-author">{{ quack.user_id }}</p>#}
+                    <span class="quack-date">Publié le {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
                 </article>
             </a>
         {% else %}
             <p>Aucun quack</p>
         {% endfor %}
     </div>
-</div>
+</main>
 {% endblock %}

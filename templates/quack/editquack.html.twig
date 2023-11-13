@@ -4,9 +4,8 @@
 
 {% block body %}
     <div>
-        <h2 class="quack-title">{{ quack.title }}</h2>
         <p class="quack-content">{{ quack.content }}</p>
-        <p class="quack-author">{{ quack.user_id }}</p>
+        {#<p class="quack-author">{{ quack.user_id }}</p>#}
         <span class="quack-date">Publié le {{ quack.created_at }}</span>
     </div>
 {% endblock %}
