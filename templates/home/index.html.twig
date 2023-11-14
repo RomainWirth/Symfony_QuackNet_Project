@@ -3,11 +3,10 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<div>
+<div class="h-full p-4 flex flex-col justify-evenly items-center">
     <h1>Welcome to {{ controller_name }}!</h1>
-
     <p>Please to one of the following in order to continue:</p>
-    <div>
+    <div class="w-1/2 flex flex-row justify-evenly">
         <a href="{{ path('login') }}">
             <p>Log-in</p>
         </a>

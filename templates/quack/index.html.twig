@@ -2,18 +2,8 @@
 
 {% block title %}Home{% endblock %}
 
-{% block stylesheets %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
-{% endblock %}
-
-{% block javascripts %}
-{% endblock %}
-
 {% block body %}
-<main class="example-wrapper">
+<div>
     <h1>Feed</h1>
     <div>
         <a href="{{ path('quackquack_add') }}">New Quack</a>
@@ -31,5 +21,5 @@
             <p>Aucun quack</p>
         {% endfor %}
     </div>
-</main>
+</div>
 {% endblock %}

@@ -15,10 +15,12 @@
         {% block javascripts %}
         {% endblock %}
     </head>
-    <body>
-        <div class="row-cols-2">
+    <body class="h-screen">
+        <div class="flex flex-row h-4/5">
             {{ include('./_header.html.twig') }}
-            {% block body %}{% endblock %}
+            <main class="basis-5/6">
+                {% block body %}{% endblock %}
+            </main>
         </div>
         {{ include('./_footer.html.twig') }}
     </body>

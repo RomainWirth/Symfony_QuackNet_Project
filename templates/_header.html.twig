@@ -1,10 +1,12 @@
-<header>
-    <img src="{{ asset('QuackNetLogo.jpg') }}" alt="">
-    <nav>
+<header class="basis-1/6 p-4 flex flex-col justify-start items-center">
+    <div class="w-1/2">
+        <img src="{{ asset('QuackNetLogo.jpg') }}" alt="QuackNetLogo" class="rounded-full">
+    </div>
+    <nav class="m-4">
         <ul>
-            <li><a href="{{ path('quackquack_list') }}">Home</a></li>
-            <li><a href="">My Quacks</a></li>
-            <li><a href="{{ path('profile') }}">Profile</a></li>
+            <li class="m-1"><a href="{{ path('quackquack_list') }}">Home</a></li>
+            <li class="m-1"><a href="">My Quacks</a></li>
+            <li class="m-1"><a href="{{ path('profile') }}">Profile</a></li>
         </ul>
     </nav>
 </header>
