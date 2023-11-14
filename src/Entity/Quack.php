@@ -29,6 +29,9 @@ class Quack {
     #[Assert\Type(\DateTimeInterface::class)]
     private ?\DateTimeInterface $created_at = null;
 
+    #[ORM\Column]
+    private ?int $user_id = null;
+
     public function __construct() {
         $this->created_at = new \DateTimeImmutable();
     }
@@ -53,6 +56,18 @@ class Quack {
 
     public function setCreatedAt(\DateTimeInterface $created_at): static {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): static
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

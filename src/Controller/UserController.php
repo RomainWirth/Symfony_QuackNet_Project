@@ -9,7 +9,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController {
-    #[Route('/user', name: 'app_user')]
+    #[Route('/user', name: 'profile')]
     public function index(): Response {
         // usually you'll want to make sure the user is authenticated first,
         // see "Authorization" below
@@ -21,7 +21,13 @@ class UserController extends AbstractController {
         $user = $this->getUser();
 
         return $this->render('user/index.html.twig', [
+            'user' => $user,
             'controller_name' => 'UserController',
         ]);
+    }
+
+    #[Route('/user/update', name: 'update_profile')]
+    public function updateUser(): Reponse {
+        return $this->render('user/update.html.twig');
     }
 }

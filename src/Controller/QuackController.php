@@ -7,8 +7,6 @@ use App\Form\QuackType;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuackController extends AbstractController {
     #[Route('/', name: 'quack_list', methods:['GET'])]
     public function listQuacks(QuackRepository $quackRepository, Request $request): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $quacks = $quackRepository->findAll();
         return $this->render('quack/index.html.twig', [
             'quacks' => $quacks
@@ -25,12 +24,14 @@ class QuackController extends AbstractController {
 
     #[Route('/{id}', name: 'quack_show', requirements: ['id' => '\d+'], methods:['GET'])]
     public function showQuack(QuackRepository $quackRepository, int $id): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $quack = $quackRepository->find($id);
         return $this->render('quack/onequack.html.twig', ['quack' => $quack]);
     }
 
     #[Route('/newQuack', name: 'quack_add', methods:['GET', 'POST'])]
     public function addQuack(Request $request, EntityManagerInterface $entityManager): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // création d'un nouveau Quack
         $quack = new Quack();
 
