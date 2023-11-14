@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Welcome to {{ controller_name }}!</h1>
+
+    <p>Please to one of the following in order to continue:</p>
+    <div>
+        <a href="{{ path('login') }}">
+            <p>Log-in</p>
+        </a>
+        <a href="{{ path('register') }}">
+            <p>Register</p>
+        </a>
+    </div>
+</div>
+{% endblock %}
