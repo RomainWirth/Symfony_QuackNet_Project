@@ -3,26 +3,27 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-<div>
+<div class="h-full p-4 flex flex-col justify-evenly items-center">
     <h1>Hello {{ user.firstname }}! ✅</h1>
-    <div>
-        <div>
+    <h2>User information</h2>
+    <div class="w-4/5 h-4/5">
+        <div class="w-4/5 h-1/5 flex flew-row justify-between">
             <p>First name:</p>
             <p>{{ user.firstname }}</p>
         </div>
-        <div>
+        <div class="w-4/5 h-1/5 flex flew-row justify-between">
             <p>Last name:</p>
             <p>{{ user.lastname }}</p>
         </div>
-        <div>
+        <div class="w-4/5 h-1/5 flex flew-row justify-between">
             <p>Duckname:</p>
             <p>{{ user.duckname }}</p>
         </div>
-        <div>
+        <div class="w-4/5 h-1/5 flex flew-row justify-between">
             <p>email address:</p>
             <p>{{ user.email }}</p>
         </div>
-        <div>
+        <div class="w-4/5 h-1/5 flex flew-row justify-between">
             <p>Change password</p>
         </div>
     </div>
