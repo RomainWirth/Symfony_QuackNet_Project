@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,10 +44,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
+        $this->quacks = new ArrayCollection();
     }
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Quack::class)]
+    private Collection $quacks;
 
     public function getId(): ?int {
         return $this->id;
@@ -163,4 +169,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Quack>
+     */
+    public function getQuacks(): Collection
+    {
+        return $this->quacks;
+    }
+
+    public function addQuack(Quack $quack): static
+    {
+        if (!$this->quacks->contains($quack)) {
+            $this->quacks->add($quack);
+            $quack->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuack(Quack $quack): static
+    {
+        if ($this->quacks->removeElement($quack)) {
+            // set the owning side to null (unless already changed)
+            if ($quack->getUserId() === $this) {
+                $quack->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

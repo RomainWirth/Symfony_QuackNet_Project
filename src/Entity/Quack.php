@@ -29,8 +29,18 @@ class Quack {
     #[Assert\Type(\DateTimeInterface::class)]
     private ?\DateTimeInterface $created_at = null;
 
-    #[ORM\Column]
-    private ?int $user_id = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tags = null;
+
+    #[ORM\ManyToOne(inversedBy: 'quacks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user_id = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $motherquack_id = null;
 
     public function __construct() {
         $this->created_at = new \DateTimeImmutable();
@@ -60,15 +70,52 @@ class Quack {
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): static
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getTags(): ?string
+    {
+        return $this->tags;
+    }
+
+    public function setTags(?string $tags): static
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
     {
         return $this->user_id;
     }
 
-    public function setUserId(int $user_id): static
+    public function setUserId(?User $user_id): static
     {
         $this->user_id = $user_id;
 
         return $this;
     }
+
+    public function getMotherquackId(): ?int
+    {
+        return $this->motherquack_id;
+    }
+
+    public function setMotherquackId(?int $motherquack_id): static
+    {
+        $this->motherquack_id = $motherquack_id;
+
+        return $this;
+    }
+
 }
