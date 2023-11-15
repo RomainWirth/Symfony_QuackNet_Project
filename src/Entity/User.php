@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email', 'duckname'], message: 'There is already an account with this email or this duckname')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,7 +17,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column]
     private array $roles = [];
@@ -37,8 +37,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column(length: 255, unique: true)]
     private ?string $duckname = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $createdAt;
+
+    public function __construct() {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int {
         return $this->id;
@@ -137,14 +141,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         return $this;
     }
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
+    public function getCreatedAt(): ?\DateTimeInterface {
+        return $this->created_at;
     }
 
-    public function setIsVerified(bool $isVerified): static
-    {
-        $this->isVerified = $isVerified;
+    public function setCreatedAt(\DateTimeInterface $created_at): static {
+        $this->created_at = $created_at;
 
         return $this;
     }

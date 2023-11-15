@@ -27,8 +27,9 @@ security:
                 login_path: app_login
                 check_path: app_login
 
-            #logout:
-            #    path: app_logout
+            logout:
+                path: app_logout
+                target: QuackNet
 
             # by default, the feature allows 5 login attempts per minute
             login_throttling:
