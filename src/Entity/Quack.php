@@ -37,7 +37,7 @@ class Quack {
 
     #[ORM\ManyToOne(inversedBy: 'quacks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    public ?User $user_id = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $motherquack_id = null;

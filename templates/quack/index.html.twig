@@ -3,20 +3,24 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<div>
-    <h1>Feed</h1>
+<div class="w-full h-full flex flex-col justify-evenly items-center">
     <div>
-        <a href="{{ path('quackquack_add') }}">New Quack</a>
+        <h1>Feed</h1>
+        <div>
+            <a href="{{ path('quackquack_add') }}">New Quack</a>
+        </div>
     </div>
     <div>
         {% for quack in quacks %}
-            <a href="">
+            <div>
                 <article class="quack">
+                    <p class="quack-author">{{ quack.user_id.firstname }}</p>
                     <p class="quack-content">{{ quack.content }}</p>
-                    {#<p class="quack-author">{{ quack.user_id }}</p>#}
-                    <span class="quack-date">Publié le {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
+                    <img src="{{ quack.picture }}"/>
+                    <p>{{ quack.tags }}</p>
+                    <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
                 </article>
-            </a>
+            </div>
         {% else %}
             <p>Aucun quack</p>
         {% endfor %}

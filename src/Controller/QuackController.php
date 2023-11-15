@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quack;
+use App\Entity\User;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,6 +18,7 @@ class QuackController extends AbstractController {
     public function listQuacks(QuackRepository $quackRepository, Request $request): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $quacks = $quackRepository->findAll();
+        /*dd($quacks);*/
         return $this->render('quack/index.html.twig', [
             'quacks' => $quacks
         ]);
@@ -34,6 +36,7 @@ class QuackController extends AbstractController {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // création d'un nouveau Quack
         $quack = new Quack();
+        $user_id = $this->getUser();
 
         // Création du formulaire
         $form = $this->createForm(QuackType::class, $quack);
@@ -41,9 +44,11 @@ class QuackController extends AbstractController {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $quackData = $form->getData();
+            $quackData->setUserId($user_id);
+            /*dd($quackData);*/
             $entityManager->persist($quackData);
             $entityManager->flush();
-            return $this->redirectToRoute('quackSuccess');
+            return $this->redirectToRoute('quackquack_list');
         }
         /* render */
         return $this->render('quack/createquack.html.twig', ['form' => $form->createView()]);
