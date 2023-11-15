@@ -1,26 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
+{% form_theme form 'tailwind_2_layout.html.twig' %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+    <div class="w-full h-full flex flex-col justify-evenly items-center">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-    <h1>Register</h1>
-
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.duckname) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        <h1>Register</h1>
+        <div class="w-full h-4/5 flex flex-col justify-evenly items-center">
+            {{ form_errors(registrationForm) }}
+            {{ form_start(registrationForm) }}
+            <div class="w-full flex flex-row justify-between">
+                {{ form_row(registrationForm.firstname) }}
+            </div>
+            <div>
+                {{ form_row(registrationForm.lastname) }}
+            </div>
+            <div>
+                {{ form_row(registrationForm.duckname) }}
+            </div>
+            <div>
+                {{ form_row(registrationForm.email) }}
+            </div>
+            <div>
+                {{ form_row(registrationForm.plainPassword, {label: 'Password'}) }}
+            </div>
+            <div>
+                {{ form_row(registrationForm.agreeTerms) }}
+            </div>
+            <button type="submit" class="btn">Register</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
 {% endblock %}
