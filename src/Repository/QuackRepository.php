@@ -60,7 +60,7 @@ class QuackRepository extends ServiceEntityRepository {
         );
         $query->setParameter('value', $value);
         /*$query->setQuery();*/
-        $query->getResult();
+        return $query->getResult();
 
         /*return $this->createQueryBuilder('q')
             ->andWhere('q.motherquack_id = :val')
