@@ -15,10 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/quack', name: 'quack')]
 class QuackController extends AbstractController {
     #[Route('/', name: 'quack_list', methods:['GET'])]
-    public function listQuacks(QuackRepository $quackRepository, Request $request): Response {
+    public function listQuacks(QuackRepository $quackRepository): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $quacks = $quackRepository->findAll();
-        /*dd($quacks);*/
+        /*dd($quacks);
+        $motherQuacks = $quackRepository->findMotherQuack();
+        dd($motherQuacks);*/
         return $this->render('quack/index.html.twig', [
             'quacks' => $quacks
         ]);
@@ -54,9 +56,11 @@ class QuackController extends AbstractController {
         /*dd($quackObject->getId());*/
         $quackChildren = $quackRepository->findByMotherQuackId($quackObject->getId());
         /*dd($quackChildren);*/
+        $quackDelete = $quackRepository->deleteQuack($id);
         return $this->render('quack/onequack.html.twig', [
             'quack' => $quackObject,
-            'quacks' => $quackChildren
+            'quacks' => $quackChildren,
+            'deleteQuack' => $quackDelete
         ]);
     }
 

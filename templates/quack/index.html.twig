@@ -11,19 +11,35 @@
         </div>
     </div>
     <div class="w-full flex flex-col justify-start items-center overflow-y-auto snap-start">
+        <div>
+            <a href="">
+                <p>Back Home</p>
+            </a>
+        </div>
         {% for quack in quacks %}
-            {% if not quack.motherquack_id  %}
-                <article class="quack flex flex-col justify-evenly items-center">
-                    <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
+            {#{{ dump(quack) }}#}
+            {% if quack.motherquack_id == null %}
+                <article class="w-1/2 quack flex flex-col justify-evenly items-center">
+                    <p class="quack-author">Author: {{ quack.user_id.duckname }}</p>
                     <p class="quack-content">{{ quack.content }}</p>
                     <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
                     <p>{{ quack.tags }}</p>
                     <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
                     <div>
                         <a href="{{ path('quackquack_show', {'id': quack.id}) }}">
-                            <p>Comment</p>
+                            <p>Comments</p>
                         </a>
                     </div>
+                    {#{{ dump(quack.motherquack_id) }}#}
+                    {#{% if quack.motherquack_id != null and quack.motherquack_id.id == quack.id %}
+                        <div class="w-full quack flex flex-col justify-evenly items-center">
+                            <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
+                            <p class="quack-content">{{ quack.content }}</p>
+                            <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
+                            <p>{{ quack.tags }}</p>
+                            <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
+                        </div>
+                    {% endif %}#}
                 </article>
             {% endif %}
         {% else %}

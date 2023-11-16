@@ -4,12 +4,18 @@
 
 {% block body %}
 <div class="quack flex flex-col justify-evenly items-center">
-    <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
+    <p class="quack-author">Author: {{ quack.user_id.duckname }}</p>
     <p class="quack-content">{{ quack.content }}</p>
     <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
     <p>{{ quack.tags }}</p>
     <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
-    <div>
+    <div class="w-1/2 flex flex-row justify-evenly items-center">
+        <a href="">
+            <p>Edit Quack</p>
+        </a>
+        <a href="">
+            <p>Delete Quack</p>
+        </a>
         <a href="{{ path('quackquack_comment', {'id': quack.id}) }}">
             <p>Add Comment</p>
         </a>
@@ -17,11 +23,21 @@
     <div class="quack flex flex-col justify-evenly items-center">
         {% for quack in quacks %}
             <article class="quack flex flex-col justify-evenly items-center">
-                <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
+                <p class="quack-author">Author: {{ quack.user_id.duckname }}</p>
                 <p class="quack-content">{{ quack.content }}</p>
                 <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
                 <p>{{ quack.tags }}</p>
                 <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
+                {{ dump(quack.user_id) }}
+                {#{% if quack.user_id %}#}
+                <div class="w-full flex flex-row justify-evenly">
+                    <a href="">
+                        <p>Edit</p>
+                    </a>
+                    <a href="">
+                        <p>Delete</p>
+                    </a>
+                </div>
             </article>
         {% endfor %}
     </div>

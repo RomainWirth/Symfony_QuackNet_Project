@@ -25,7 +25,6 @@ class QuackRepository extends ServiceEntityRepository {
     public function findByMotherQuackId(int $value): array
     {
         /*$entityManager = $this->getEntityManager();*/
-
         /*
         $query = $entityManager->createQuery(
             'SELECT * FROM App\Entity\Quack q WHERE q.motherquack_id_id = :value'
@@ -42,13 +41,31 @@ class QuackRepository extends ServiceEntityRepository {
         ;
     }
 
-//    public function findOneBySomeField($value): ?Quack
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findMotherQuack($value): ?Quack
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.motherquack_id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function deleteQuack($value): ?Quack
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'DELETE FROM App\Entity\Quack q WHERE q.id = :value'
+        );
+        $query->setParameter('value', $value);
+        /*$query->setQuery();*/
+        $query->getResult();
+
+        /*return $this->createQueryBuilder('q')
+            ->andWhere('q.motherquack_id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();*/
+    }
 }
