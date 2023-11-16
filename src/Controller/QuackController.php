@@ -29,7 +29,7 @@ class QuackController extends AbstractController {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // création d'un nouveau Quack
         $quack = new Quack();
-        $user_id = $this->getUser();
+        $userObject = $this->getUser();
 
         // Création du formulaire
         $form = $this->createForm(QuackType::class, $quack);
@@ -37,7 +37,7 @@ class QuackController extends AbstractController {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $quackData = $form->getData();
-            $quackData->setUserId($user_id);
+            $quackData->setUserId($userObject);
             /*dd($quackData);*/
             $entityManager->persist($quackData);
             $entityManager->flush();
@@ -50,11 +50,44 @@ class QuackController extends AbstractController {
     #[Route('/{id<\d+>}', name: 'quack_show', methods: ['GET'])]
     public function showQuack(QuackRepository $quackRepository, int $id): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $id = $quackRepository->find($id);
-        return $this->render('quack/onequack.html.twig', ['quack' => $id]);
+        $quackObject = $quackRepository->find($id);
+        /*dd($quackObject->getId());*/
+        $quackChildren = $quackRepository->findByMotherQuackId($quackObject->getId());
+        /*dd($quackChildren);*/
+        return $this->render('quack/onequack.html.twig', [
+            'quack' => $quackObject,
+            'quacks' => $quackChildren
+        ]);
     }
 
-    /*#[Route('/')]*/
+    #[Route('/{id<\d+>}/newComment', name: 'quack_comment', methods: ['GET', 'POST'])]
+    public function newComment(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        QuackRepository $quackRepository,
+        int $id
+    ): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /*dd($id);*/
+        $motherquackObject = $quackRepository->find($id);
+        /*dd($motherquackObject);*/
+        $userObject = $this->getUser();
+        $quack = new Quack();
+
+        $form = $this->createForm(QuackType::class, $quack);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quackData = $form->getData();
+            $quackData->setUserId($userObject);
+            $quackData->setMotherquackId($motherquackObject);
+            /*dd($quackData);*/
+            $entityManager->persist($quackData);
+            $entityManager->flush();
+            return $this->redirectToRoute('quackquack_list');
+        }
+        return $this->render('quack/createquack.html.twig', ['form' => $form->createView()]);
+
+    }
 
     #[Route('/quackSuccess', name: 'quackSuccess', methods:'GET')]
     public function postQuackSuccess(): Response {

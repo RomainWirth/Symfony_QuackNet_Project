@@ -19,20 +19,28 @@ class QuackRepository extends ServiceEntityRepository {
         parent::__construct($registry, Quack::class);
     }
 
-//    /**
-//     * @return Quack[] Returns an array of Quack objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Quack[] Returns an array of Quack objects
+     */
+    public function findByMotherQuackId(int $value): array
+    {
+        /*$entityManager = $this->getEntityManager();*/
+
+        /*
+        $query = $entityManager->createQuery(
+            'SELECT * FROM App\Entity\Quack q WHERE q.motherquack_id_id = :value'
+        );
+        $query->setParameter('value', $value);
+        $query->setQuery();
+        $query->getResult();
+        */
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.motherquack_id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Quack
 //    {

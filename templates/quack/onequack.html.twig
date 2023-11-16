@@ -10,9 +10,20 @@
     <p>{{ quack.tags }}</p>
     <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
     <div>
-        <a href="{{ path('quackquack_show', {'id': quack.id}) }}">
+        <a href="{{ path('quackquack_comment', {'id': quack.id}) }}">
             <p>Add Comment</p>
         </a>
+    </div>
+    <div class="quack flex flex-col justify-evenly items-center">
+        {% for quack in quacks %}
+            <article class="quack flex flex-col justify-evenly items-center">
+                <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
+                <p class="quack-content">{{ quack.content }}</p>
+                <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
+                <p>{{ quack.tags }}</p>
+                <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
+            </article>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

@@ -12,18 +12,20 @@
     </div>
     <div class="w-full flex flex-col justify-start items-center overflow-y-auto snap-start">
         {% for quack in quacks %}
-        <article class="quack flex flex-col justify-evenly items-center">
-            <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
-            <p class="quack-content">{{ quack.content }}</p>
-            <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
-            <p>{{ quack.tags }}</p>
-            <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
-            <div>
-                <a href="{{ path('quackquack_show', {'id': quack.id}) }}">
-                    <p>Comment</p>
-                </a>
-            </div>
-        </article>
+            {% if not quack.motherquack_id  %}
+                <article class="quack flex flex-col justify-evenly items-center">
+                    <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
+                    <p class="quack-content">{{ quack.content }}</p>
+                    <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
+                    <p>{{ quack.tags }}</p>
+                    <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
+                    <div>
+                        <a href="{{ path('quackquack_show', {'id': quack.id}) }}">
+                            <p>Comment</p>
+                        </a>
+                    </div>
+                </article>
+            {% endif %}
         {% else %}
             <p>Aucun quack</p>
         {% endfor %}

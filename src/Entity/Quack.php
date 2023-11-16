@@ -42,7 +42,7 @@ class Quack {
     public ?User $user_id = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'comment')]
-    private ?self $motherquack_id = null;
+    public ?self $motherquack_id = null;
 
     #[ORM\OneToMany(mappedBy: 'motherquack_id', targetEntity: self::class)]
     private Collection $comment;
