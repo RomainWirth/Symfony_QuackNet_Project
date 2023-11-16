@@ -3,24 +3,27 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<div class="w-full h-full flex flex-col justify-evenly items-center">
+<div class="w-full h-full flex flex-col justify-start items-center">
     <div>
         <h1>Feed</h1>
         <div>
             <a href="{{ path('quackquack_add') }}">New Quack</a>
         </div>
     </div>
-    <div>
+    <div class="w-full flex flex-col justify-start items-center overflow-y-auto snap-start">
         {% for quack in quacks %}
+        <article class="quack flex flex-col justify-evenly items-center">
+            <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
+            <p class="quack-content">{{ quack.content }}</p>
+            <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
+            <p>{{ quack.tags }}</p>
+            <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
             <div>
-                <article class="quack">
-                    <p class="quack-author">{{ quack.user_id.firstname }}</p>
-                    <p class="quack-content">{{ quack.content }}</p>
-                    <img src="{{ quack.picture }}"/>
-                    <p>{{ quack.tags }}</p>
-                    <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
-                </article>
+                <a href="">
+                    <p>Comment</p>
+                </a>
             </div>
+        </article>
         {% else %}
             <p>Aucun quack</p>
         {% endfor %}
