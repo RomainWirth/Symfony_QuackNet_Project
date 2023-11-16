@@ -24,11 +24,11 @@ class QuackController extends AbstractController {
         ]);
     }
 
-    #[Route('/{id}', name: 'quack_show', requirements: ['id' => '\d+'], methods:['GET'])]
+    #[Route('/{id<\d+>}', name: 'quack_show', methods: ['GET'])]
     public function showQuack(QuackRepository $quackRepository, int $id): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $quack = $quackRepository->find($id);
-        return $this->render('quack/onequack.html.twig', ['quack' => $quack]);
+        $id = $quackRepository->find($id);
+        return $this->render('quack/onequack.html.twig', ['quack' => $id]);
     }
 
     #[Route('/newQuack', name: 'quack_add', methods:['GET', 'POST'])]

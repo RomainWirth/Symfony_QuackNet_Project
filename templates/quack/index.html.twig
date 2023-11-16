@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="w-full h-full flex flex-col justify-start items-center">
-    <div>
+    <div class="flex flex-col items-center">
         <h1>Feed</h1>
         <div>
             <a href="{{ path('quackquack_add') }}">New Quack</a>
@@ -19,7 +19,7 @@
             <p>{{ quack.tags }}</p>
             <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
             <div>
-                <a href="">
+                <a href="{{ path('quackquack_show', {'id': quack.id}) }}">
                     <p>Comment</p>
                 </a>
             </div>
