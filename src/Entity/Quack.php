@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuackRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -39,11 +41,16 @@ class Quack {
     #[ORM\JoinColumn(nullable: false)]
     public ?User $user_id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $motherquack_id = null;
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'comment')]
+    private ?self $motherquack_id = null;
+
+    #[ORM\OneToMany(mappedBy: 'motherquack_id', targetEntity: self::class)]
+    private Collection $comment;
+
 
     public function __construct() {
         $this->created_at = new \DateTimeImmutable();
+        $this->comment = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -106,14 +113,44 @@ class Quack {
         return $this;
     }
 
-    public function getMotherquackId(): ?int
+    public function getMotherquackId(): ?self
     {
         return $this->motherquack_id;
     }
 
-    public function setMotherquackId(?int $motherquack_id): static
+    public function setMotherquackId(?self $motherquack_id): static
     {
         $this->motherquack_id = $motherquack_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    public function addComment(self $comment): static
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setMotherquackId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(self $comment): static
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getMotherquackId() === $this) {
+                $comment->setMotherquackId(null);
+            }
+        }
 
         return $this;
     }

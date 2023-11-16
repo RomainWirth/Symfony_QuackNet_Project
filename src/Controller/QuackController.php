@@ -24,13 +24,6 @@ class QuackController extends AbstractController {
         ]);
     }
 
-    #[Route('/{id<\d+>}', name: 'quack_show', methods: ['GET'])]
-    public function showQuack(QuackRepository $quackRepository, int $id): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $id = $quackRepository->find($id);
-        return $this->render('quack/onequack.html.twig', ['quack' => $id]);
-    }
-
     #[Route('/newQuack', name: 'quack_add', methods:['GET', 'POST'])]
     public function addQuack(Request $request, EntityManagerInterface $entityManager): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -53,6 +46,15 @@ class QuackController extends AbstractController {
         /* render */
         return $this->render('quack/createquack.html.twig', ['form' => $form->createView()]);
     }
+
+    #[Route('/{id<\d+>}', name: 'quack_show', methods: ['GET'])]
+    public function showQuack(QuackRepository $quackRepository, int $id): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $id = $quackRepository->find($id);
+        return $this->render('quack/onequack.html.twig', ['quack' => $id]);
+    }
+
+    /*#[Route('/')]*/
 
     #[Route('/quackSuccess', name: 'quackSuccess', methods:'GET')]
     public function postQuackSuccess(): Response {

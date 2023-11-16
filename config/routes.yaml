@@ -11,4 +11,3 @@ login:
 register:
     path: /register
     controller: App\Controller\RegistrationController
-

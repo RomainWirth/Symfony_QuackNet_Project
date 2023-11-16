@@ -3,10 +3,16 @@
 {% block title %}Your quack{% endblock %}
 
 {% block body %}
-<div>
-    <h2 class="quack-title">{{ quack.title }}</h2>
+<div class="quack flex flex-col justify-evenly items-center">
+    <p class="quack-author">Author: {{ quack.user_id.firstname }}</p>
     <p class="quack-content">{{ quack.content }}</p>
-    <p class="quack-author">{{ quack.user_id }}</p>
-    <span class="quack-date">Publié le {{ quack.created_at }}</span>
+    <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
+    <p>{{ quack.tags }}</p>
+    <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
+    <div>
+        <a href="{{ path('quackquack_show', {'id': quack.id}) }}">
+            <p>Add Comment</p>
+        </a>
+    </div>
 </div>
 {% endblock %}
