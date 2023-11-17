@@ -51,16 +51,17 @@ class QuackController extends AbstractController {
 
     #[Route('/{id<\d+>}', name: 'quack_show', methods: ['GET'])]
     public function showQuack(QuackRepository $quackRepository, int $id): Response {
+        // Need access granted to use this
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // $quackObject return one quack identified by its id
         $quackObject = $quackRepository->find($id);
+        /*dd($quackObject);*/
         /*dd($quackObject->getId());*/
         $quackChildren = $quackRepository->findByMotherQuackId($quackObject->getId());
         /*dd($quackChildren);*/
-        $quackDelete = $quackRepository->deleteQuack($id);
         return $this->render('quack/onequack.html.twig', [
             'quack' => $quackObject,
-            'quacks' => $quackChildren,
-            'deleteQuack' => $quackDelete
+            'quacks' => $quackChildren
         ]);
     }
 
@@ -118,8 +119,14 @@ class QuackController extends AbstractController {
         return $this->render('quack/editquack.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/{id<\d+>}/delete', name: 'quack_delete', methods:['POST'])]
-    public function deleteQuack(int $id): Response {
-        return $this->redirectToRoute('quack_list');
+    #[Route('/{id<\d+>}/delete', name: 'quack_delete', methods:['GET', 'POST'])]
+    public function deleteQuack(QuackRepository $quackRepository, int $id): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $quackObject = $quackRepository->find($id);
+        /*dd($quackObject);*/
+        /*$quackChildren = $quackRepository->findByMotherQuackId($quackObject->getId());*/
+        $quackRepository->deleteQuackChildren($quackObject->getId());
+        $quackRepository->deleteQuack($id);
+        return $this->redirectToRoute('quackquack_list');
     }
 }

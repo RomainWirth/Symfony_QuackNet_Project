@@ -4,40 +4,52 @@
 
 {% block body %}
 <div class="quack flex flex-col justify-evenly items-center">
-    <p class="quack-author">Author: {{ quack.user_id.duckname }}</p>
+    <div class="w-1/2 flex flex-row justify-between items-center">
+        <p class="quack-author">Author: {{ quack.user_id.duckname }}</p>
+        <a href="">
+            <p>[ Moderate ]</p>
+        </a>
+    </div>
     <p class="quack-content">{{ quack.content }}</p>
     <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
     <p>{{ quack.tags }}</p>
     <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
     <div class="w-1/2 flex flex-row justify-evenly items-center">
         <a href="">
-            <p>Edit Quack</p>
+            <p>[ Edit Quack ]</p>
         </a>
-        <a href="">
-            <p>Delete Quack</p>
+        <a href="{{ path('quackquack_delete', {'id': quack.id}) }}">
+            <p>[ Delete Quack ]</p>
         </a>
         <a href="{{ path('quackquack_comment', {'id': quack.id}) }}">
-            <p>Add Comment</p>
+            <p>[ Add Comment ]</p>
         </a>
     </div>
     <div class="quack flex flex-col justify-evenly items-center">
         {% for quack in quacks %}
             <article class="quack flex flex-col justify-evenly items-center">
-                <p class="quack-author">Author: {{ quack.user_id.duckname }}</p>
+                <div class="w-full flex flex-row justify-between items-center">
+                    <p class="quack-author">Author: {{ quack.user_id.duckname }}</p>
+                    <a href="">
+                        <p>[ Moderate ]</p>
+                    </a>
+                </div>
                 <p class="quack-content">{{ quack.content }}</p>
                 <img src="{{ quack.picture }}" alt="" class="quack-picture"/>
                 <p>{{ quack.tags }}</p>
                 <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
-                {{ dump(quack.user_id) }}
+                {#{{ dump(quack.user_id) }}#}
+                {#{{ dump(user.id) }}#}
                 {#{% if quack.user_id %}#}
                 <div class="w-full flex flex-row justify-evenly">
                     <a href="">
-                        <p>Edit</p>
+                        <p>[ Edit ]</p>
                     </a>
-                    <a href="">
-                        <p>Delete</p>
+                    <a href="{{ path('quackquack_delete', {'id': quack.id}) }}">
+                        <p>[ Delete ]</p>
                     </a>
                 </div>
+                {#{% endif %}#}
             </article>
         {% endfor %}
     </div>

@@ -7,13 +7,13 @@
     <div class="flex flex-col items-center">
         <h1>Feed</h1>
         <div>
-            <a href="{{ path('quackquack_add') }}">New Quack</a>
+            <a href="{{ path('quackquack_add') }}">[ New Quack ]</a>
         </div>
     </div>
     <div class="w-full flex flex-col justify-start items-center overflow-y-auto snap-start">
         <div>
             <a href="">
-                <p>Back Home</p>
+                <p>[ Back Home ]</p>
             </a>
         </div>
         {% for quack in quacks %}
@@ -27,7 +27,7 @@
                     <span class="quack-date">Published on {{ quack.getCreatedAt | date('Y-m-d H:i:s') }}</span>
                     <div>
                         <a href="{{ path('quackquack_show', {'id': quack.id}) }}">
-                            <p>Comments</p>
+                            <p>[ Show Comments ]</p>
                         </a>
                     </div>
                     {#{{ dump(quack.motherquack_id) }}#}

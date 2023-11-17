@@ -33,39 +33,57 @@ class QuackRepository extends ServiceEntityRepository {
         $query->setQuery();
         $query->getResult();
         */
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.motherquack_id = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getResult()
-        ;
+        if ($value == null) {
+            return [];
+        } else {
+            return $this->createQueryBuilder('q')
+                ->where('q.motherquack_id IS NOT NULL')
+                ->andWhere('q.motherquack_id = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getResult();
+        }
     }
 
     public function findMotherQuack($value): ?Quack
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.motherquack_id = :val')
+            ->where('q.motherquack_id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
-    public function deleteQuack($value): ?Quack
+    public function deleteQuack($value)
     {
-        $entityManager = $this->getEntityManager();
+/*        $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
             'DELETE FROM App\Entity\Quack q WHERE q.id = :value'
         );
         $query->setParameter('value', $value);
-        /*$query->setQuery();*/
-        return $query->getResult();
+        return $query->getQuery()
+            ->getResult();*/
 
-        /*return $this->createQueryBuilder('q')
-            ->andWhere('q.motherquack_id = :val')
+        return $this->createQueryBuilder('q')
+            ->delete()
+            ->where('q.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getResult();*/
+            ->getResult();
+    }
+
+    public function deleteQuackChildren($value)
+    {
+        if ($value == null) {
+            return [];
+        } else {
+            return $this->createQueryBuilder('q')
+                ->delete()
+                ->where('q.motherquack_id = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getResult();
+        }
     }
 }
