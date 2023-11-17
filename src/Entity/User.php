@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email', 'duckname'], message: 'There is already an account with this email or this duckname')]
@@ -20,6 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
     #[ORM\Column(length: 180, unique: true)]
     private string $email;
+
 
     #[ORM\Column]
     private array $roles = [];
@@ -40,10 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     private ?string $duckname = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    #[Assert\Type(\DateTimeInterface::class)]
+    private ?\DateTimeImmutable $created_at;
 
     public function __construct() {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->created_at = new \DateTimeImmutable();
         $this->quacks = new ArrayCollection();
     }
 
@@ -154,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): static {
+    public function setCreatedAt(?\DateTimeInterface $created_at): static {
         $this->created_at = $created_at;
 
         return $this;

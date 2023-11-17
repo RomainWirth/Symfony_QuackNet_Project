@@ -53,6 +53,8 @@ class QuackController extends AbstractController {
     public function showQuack(QuackRepository $quackRepository, int $id): Response {
         // Need access granted to use this
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
         // $quackObject return one quack identified by its id
         $quackObject = $quackRepository->find($id);
         /*dd($quackObject);*/
@@ -60,6 +62,7 @@ class QuackController extends AbstractController {
         $quackChildren = $quackRepository->findByMotherQuackId($quackObject->getId());
         /*dd($quackChildren);*/
         return $this->render('quack/onequack.html.twig', [
+            'user' => $user,
             'quack' => $quackObject,
             'quacks' => $quackChildren
         ]);

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="w-full h-full flex flex-col justify-evenly items-center">
+    <h1>Admin Dash Board</h1>
+    {#{{ dump(userAdmin) }}#}
+    {{ dump(allUsers) }}
+    <div class="quack w-full flex flex-col justify-between overflow-y-auto snap-start">
+        {% for user in allUsers %}
+            {{ dump(user.roles) }}
+            <div class="quack m-1 flex flex-row justify-between items-center">
+                <div class="w-3/4 flex flex-col justify-start items-start">
+                    <p class="m-1">ID: {{ user.id }}</p>
+                    <p class="m-1">Duckname: {{ user.duckname }}</p>
+                    <p class="m-1">First Name: {{ user.firstname }}</p>
+                    <p class="m-1">Last Name: {{ user.lastname }}</p>
+                    <p class="m-1">email: {{ user.email }}</p>
+                    <p class="m-1">Created at: {{ user.getCreatedAt | date('Y-m-d H:i:s') }}</p>
+                    <p class="m-1">Roles: [{{ user.roles|join(', ') }}
+                        {#{% for user.role in user.roles %}
+                            <p>{{ user.role }}, </p>
+                        {% endfor %}#}
+                    ]</p>
+                </div>
+                <div class="w-1/4">
+                    <a href="{{ path('changeRole') }}">
+                        <p>[ Change role ]</p>
+                    </a>
+                    <a href="">
+                        <p>[ Delete user ]</p>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

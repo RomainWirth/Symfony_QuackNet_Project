@@ -6,7 +6,10 @@
 <div class="h-full p-4 flex flex-col justify-evenly items-center">
     <h1>Hello {{ user.firstname }}! ✅</h1>
     <h2>User information</h2>
-    <div class="w-4/5 h-4/5">
+    {#{% if user.role == "" %}#}
+        <p class="m-1"><a href="{{ path('adminDashboard') }}">[ Admin Dashboard ]</a></p>
+    {#{% endif %}#}
+    <div class="w-1/2 h-4/5">
         <div class="w-4/5 h-1/5 flex flew-row justify-between">
             <p>First name:</p>
             <p>{{ user.firstname }}</p>
@@ -23,9 +26,9 @@
             <p>email address:</p>
             <p>{{ user.email }}</p>
         </div>
-        <div>
+        {#<div>
             <a href="{{ path('update_profile') }}"><p>Modify</p></a>
-        </div>
+        </div>#}
     </div>
 </div>
 {% endblock %}

@@ -27,7 +27,7 @@ class UserController extends AbstractController {
         ]);
     }
 
-    #[Route('/user/update/{id}', name: 'update_profile')]
+    /*#[Route('/user/update/{id}', name: 'update_profile')]
     public function updateUser(User $user, Request $request, EntityManagerInterface $manager): Response {
         if($this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -53,5 +53,5 @@ class UserController extends AbstractController {
         return $this->render('user/update.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
+    }*/
 }
